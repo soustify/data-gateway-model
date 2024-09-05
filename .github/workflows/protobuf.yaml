@@ -11,6 +11,7 @@ on:
       - main
       - development
       - staging
+
 jobs:
   generate-protobuf:
     runs-on: ubuntu-latest
@@ -26,23 +27,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y protobuf-compiler
 
-      # Instala o plugin do Go para protobuf
-      - name: Install protoc-gen-go
+      # Instala o plugin do Go para protobuf e gRPC
+      - name: Install protoc-gen-go and protoc-gen-go-grpc
         run: |
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
-
-      # Adiciona o binário do Go ao PATH
-      - name: Add Go to PATH
-        run: echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
+          
+      # Adiciona o diretório Go bin ao PATH (normalmente $HOME/go/bin)
+      - name: Add Go bin to PATH
+        run: echo "$HOME/go/bin" >> $GITHUB_PATH
 
       # Gera os arquivos protobuf para Go
       - name: Generate protobuf
         run: |
-          rm -rf pkg/pb
-          mkdir -p pkg/pb
-          protoc --go_out=pkg/pb --go_opt=paths=source_relative \
-                 --go-grpc_out=pkg/pb --go-grpc_opt=paths=source_relative \
+          mkdir -p gen/pb
+          protoc --go_out=gen/pb --go_opt=paths=source_relative \
+                 --go-grpc_out=gen/pb --go-grpc_opt=paths=source_relative \
                  proto/*.proto
 
       # Verifica se houve alguma alteração nos arquivos gerados
@@ -53,7 +53,6 @@ jobs:
             git config --global user.email 'github-actions[bot]@users.noreply.github.com'
             git add .
             git commit -m "Regenerate protobuf files"
-            # Obtém a branch de origem
             branch_name=$(echo "${GITHUB_REF##*/}")
             git push origin $branch_name
           else
