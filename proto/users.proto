@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package domain;
+
+message UsersRequest {
+  uint64 id = 1;
+}
+
+message UsersResponse {
+  uint64 id = 1;
+}
+
+service UsersService {
+  rpc Save (UsersRequest) returns (UsersRequest);
+}

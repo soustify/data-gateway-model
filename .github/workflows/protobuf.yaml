@@ -1,0 +1,60 @@
+name: Generate Protobuf
+
+on:
+  push:
+    branches:
+      - main
+      - development
+      - staging
+  pull_request:
+    branches:
+      - main
+      - development
+      - staging
+jobs:
+  generate-protobuf:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checa o repositório
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Instala protoc (Protocol Buffers Compiler)
+      - name: Install protoc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+
+      # Instala o plugin do Go para protobuf
+      - name: Install protoc-gen-go
+        run: |
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
+      # Adiciona o binário do Go ao PATH
+      - name: Add Go to PATH
+        run: echo "${{ github.workspace }}/bin" >> $GITHUB_PATH
+
+      # Gera os arquivos protobuf para Go
+      - name: Generate protobuf
+        run: |
+          rm -rf pkg/pb
+          mkdir -p pkg/pb
+          protoc --go_out=pkg/pb --go_opt=paths=source_relative \
+                 --go-grpc_out=pkg/pb --go-grpc_opt=paths=source_relative \
+                 proto/*.proto
+
+      # Verifica se houve alguma alteração nos arquivos gerados
+      - name: Check for changes
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git add .
+            git commit -m "Regenerate protobuf files"
+            # Obtém a branch de origem
+            branch_name=$(echo "${GITHUB_REF##*/}")
+            git push origin $branch_name
+          else
+            echo "No changes detected"
