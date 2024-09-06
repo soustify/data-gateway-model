@@ -16,7 +16,8 @@ on:
 jobs:
   generate-protobuf:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
       # Checa o repositório
       - name: Checkout repository
