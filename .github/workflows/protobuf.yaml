@@ -48,12 +48,9 @@ jobs:
       # Verifica se houve alguma alteração nos arquivos gerados
       - name: Check for changes
         run: |
-          if [[ `git status --porcelain` ]]; then
-            git config --global user.name 'github-actions[bot]'
-            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-            git add .
-            git commit -m "Regenerate protobuf files"
-            branch_name=$(echo "${GITHUB_REF##*/}")
-            git push origin $branch_name
-          else
-            echo "No changes detected"
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m "Regenerate protobuf files"
+          branch_name=$(echo "${GITHUB_REF##*/}")
+          git push origin $branch_name
