@@ -45,6 +45,12 @@ jobs:
                  --go-grpc_out=gen/pb --go-grpc_opt=paths=source_relative \
                  proto/*.proto
 
+      # Configura o token para fazer o push com permissões adequadas
+      - name: Setup Git for push
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}
+      
+
       # Verifica se houve alguma alteração nos arquivos gerados
       - name: Check for changes
         run: |
@@ -54,3 +60,4 @@ jobs:
           git commit -m "Regenerate protobuf files"
           branch_name=$(echo "${GITHUB_REF##*/}")
           git push origin $branch_name
+          
