@@ -1,6 +1,7 @@
 name: Generate Protobuf
 
 on:
+  workflow_dispatch: 
   push:
     branches:
       - main
@@ -45,19 +46,14 @@ jobs:
                  --go-grpc_out=gen/pb --go-grpc_opt=paths=source_relative \
                  proto/*.proto
 
-      # Configura o token para fazer o push com permissões adequadas
-      - name: Setup Git for push
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}
-      
-
       # Verifica se houve alguma alteração nos arquivos gerados
       - name: Check for changes
         run: |
+          git remote set-url origin https://x-access-token:${{ secrets.PAT_TOKEN }}@github.com/${{ github.repository }}
+          git checkout development
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git add .
           git commit -m "Regenerate protobuf files"
-          branch_name=$(echo "${GITHUB_REF##*/}")
           git push origin $branch_name
-          
+
