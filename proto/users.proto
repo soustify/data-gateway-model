@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package domain;
 
+option go_package = "path/to/your/package/gen/pb;pb";
+
 message UsersRequest {
   uint64 id = 1;
 }
