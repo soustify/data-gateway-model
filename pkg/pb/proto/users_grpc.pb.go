@@ -20,13 +20,15 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	UsersService_Save_FullMethodName = "/domain.UsersService/Save"
+	UsersService_Find_FullMethodName = "/domain.UsersService/Find"
 )
 
 // UsersServiceClient is the client API for UsersService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UsersServiceClient interface {
-	Save(ctx context.Context, in *UsersRequest, opts ...grpc.CallOption) (*UsersRequest, error)
+	Save(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	Find(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UsersResponse, error)
 }
 
 type usersServiceClient struct {
@@ -37,10 +39,20 @@ func NewUsersServiceClient(cc grpc.ClientConnInterface) UsersServiceClient {
 	return &usersServiceClient{cc}
 }
 
-func (c *usersServiceClient) Save(ctx context.Context, in *UsersRequest, opts ...grpc.CallOption) (*UsersRequest, error) {
+func (c *usersServiceClient) Save(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(UsersRequest)
+	out := new(UserResponse)
 	err := c.cc.Invoke(ctx, UsersService_Save_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersServiceClient) Find(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UsersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UsersResponse)
+	err := c.cc.Invoke(ctx, UsersService_Find_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -51,7 +63,8 @@ func (c *usersServiceClient) Save(ctx context.Context, in *UsersRequest, opts ..
 // All implementations must embed UnimplementedUsersServiceServer
 // for forward compatibility.
 type UsersServiceServer interface {
-	Save(context.Context, *UsersRequest) (*UsersRequest, error)
+	Save(context.Context, *UserRequest) (*UserResponse, error)
+	Find(context.Context, *UserRequest) (*UsersResponse, error)
 	mustEmbedUnimplementedUsersServiceServer()
 }
 
@@ -62,8 +75,11 @@ type UsersServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedUsersServiceServer struct{}
 
-func (UnimplementedUsersServiceServer) Save(context.Context, *UsersRequest) (*UsersRequest, error) {
+func (UnimplementedUsersServiceServer) Save(context.Context, *UserRequest) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Save not implemented")
+}
+func (UnimplementedUsersServiceServer) Find(context.Context, *UserRequest) (*UsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Find not implemented")
 }
 func (UnimplementedUsersServiceServer) mustEmbedUnimplementedUsersServiceServer() {}
 func (UnimplementedUsersServiceServer) testEmbeddedByValue()                      {}
@@ -87,7 +103,7 @@ func RegisterUsersServiceServer(s grpc.ServiceRegistrar, srv UsersServiceServer)
 }
 
 func _UsersService_Save_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UsersRequest)
+	in := new(UserRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -99,7 +115,25 @@ func _UsersService_Save_Handler(srv interface{}, ctx context.Context, dec func(i
 		FullMethod: UsersService_Save_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UsersServiceServer).Save(ctx, req.(*UsersRequest))
+		return srv.(UsersServiceServer).Save(ctx, req.(*UserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UsersService_Find_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UsersServiceServer).Find(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UsersService_Find_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UsersServiceServer).Find(ctx, req.(*UserRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -114,6 +148,10 @@ var UsersService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Save",
 			Handler:    _UsersService_Save_Handler,
+		},
+		{
+			MethodName: "Find",
+			Handler:    _UsersService_Find_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
