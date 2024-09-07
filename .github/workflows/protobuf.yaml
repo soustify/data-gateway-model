@@ -3,6 +3,8 @@ name: Generate Protobuf
 on:
   workflow_dispatch: 
   push:
+    paths:
+      - ./proto/*
     branches:
       - main
       - development
