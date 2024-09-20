@@ -8,3 +8,6 @@ docker compose up
 Adicionar a entidade no main (cmd/main/main.go)
 e executar o arquivo, logo depois mover os arquivos
 generated para pasta respectiva
+
+
+

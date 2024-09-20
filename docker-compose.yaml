@@ -1,7 +1,7 @@
 version: '3.8'
 services:
 #  grpc_server:
-#    image: 043309331568.dkr.ecr.us-east-1.amazonaws.com/development-data-gateway-grpc:91378d467f1ef056c4f40b2e3e445633cae362c3
+#    image: grpc_server:latest
 #    ports:
 #      - "50051:50051"
 #    environment:
