@@ -138,6 +138,6 @@ func generateFile(data TemplateData, outputPath string) {
 }
 
 func main() {
-	CreateImplementation((*pb.UsersServiceClient)(nil), "lambda", "usersServiceLambdaClient", "UsersClient")
+	CreateImplementation((*pb.UsersServiceClient)(nil), "lambda", "usersServiceClient", "UsersClient")
 	CreateImplementation((*pb.TransactionsServiceClient)(nil), "lambda", "transactionsServiceClient", "TransactionsClient")
 }
