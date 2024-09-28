@@ -17,8 +17,8 @@ services:
       - /bin/sh
       - -c
       - |
-        rm -rf pkg/pb
-        mkdir -p pkg/pb
+        rm -rf pkg/pb/proto
+        mkdir -p pkg/pb/proto
         protoc --go_out=pkg/pb --go_opt=paths=source_relative \
                --go-grpc_out=pkg/pb --go-grpc_opt=paths=source_relative \
                proto/*.proto

@@ -5,12 +5,12 @@ package domain;
 option go_package = "pkg/pb;pb";
 
 message DocumentTypeRequest {
-  uint64 Id = 1;
+  string Id = 1;
   string Name = 2;
 }
 
 message DocumentTypeResponse {
-  uint64 Id = 1;
+  string Id = 1;
   string Name = 2;
 }
 
