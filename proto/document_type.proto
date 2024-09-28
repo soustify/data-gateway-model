@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+message DocumentTypeRequest {
+  uint64 Id = 1;
+  string Name = 2;
+}
+
+message DocumentTypeResponse {
+  uint64 Id = 1;
+  string Name = 2;
+}
+
+message DocumentTypeListResponse {
+  repeated DocumentTypeResponse list = 1;
+}
+
+service DocumentTypeService {
+  rpc Save(DocumentTypeRequest) returns (DocumentTypeResponse);
+  rpc Find(DocumentTypeRequest) returns (DocumentTypeListResponse);
+}
