@@ -15,38 +15,42 @@ var (
 // documentTypeServiceClient implements the DocumentTypeServiceClient interface
 type documentTypeServiceClient struct{}
 
+func (c *documentTypeServiceClient) invoke(ctx context.Context, operation string, body interface{}, result interface{}) error {
+	return invokeAndUnmarshal(ctx, fmt.Sprintf("%s_%s", transactionsLambdaName, operation), body, result)
+}
+
 func (c *documentTypeServiceClient) Create(ctx context.Context, body *pb.DocumentTypeRequest, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
 	var result *pb.DocumentTypeResponse
-	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_create", transactionsLambdaName), body, &result)
+	err := c.invoke(ctx, "create", body, &result)
 	return result, err
 }
 
 func (c *documentTypeServiceClient) Update(ctx context.Context, body *pb.DocumentTypeRequest, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
 	var result *pb.DocumentTypeResponse
-	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_update", transactionsLambdaName), body, &result)
+	err := c.invoke(ctx, "update", body, &result)
 	return result, err
 }
 
 func (c *documentTypeServiceClient) FindAll(ctx context.Context, body *pb.DocumentTypeRequest, opts ...grpc.CallOption) (*pb.DocumentTypeListResponse, error) {
 	var result *pb.DocumentTypeListResponse
-	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_find_all", transactionsLambdaName), body, &result)
+	err := c.invoke(ctx, "find_all", body, &result)
 	return result, err
 }
 
 func (c *documentTypeServiceClient) FindOne(ctx context.Context, body *pb.DocumentTypeRequest, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
 	var result *pb.DocumentTypeResponse
-	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_find_one", transactionsLambdaName), body, &result)
+	err := c.invoke(ctx, "find_one", body, &result)
 	return result, err
 }
 
 func (c *documentTypeServiceClient) Enabled(ctx context.Context, body *pb.Entity, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
 	var result *pb.DocumentTypeResponse
-	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_enabled", transactionsLambdaName), body, &result)
+	err := c.invoke(ctx, "enabled", body, &result)
 	return result, err
 }
 
 func (c *documentTypeServiceClient) Disable(ctx context.Context, body *pb.Entity, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
 	var result *pb.DocumentTypeResponse
-	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_disable", transactionsLambdaName), body, &result)
+	err := c.invoke(ctx, "disable", body, &result)
 	return result, err
 }
