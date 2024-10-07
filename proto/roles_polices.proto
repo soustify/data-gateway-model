@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message RolePolicy {
+  Entity Entity = 1;
+  string id_role_application = 2;
+  string id_policy = 3;
+}
+
+message RolePolicyRequest {
+  RolePolicy payload = 1;
+}
+
+message RolePolicyResponse {
+  RolePolicy response = 1;
+}
+
+message RolePolicyListResponse {
+  repeated RolePolicy response = 1;
+}
+
+service RolePolicyService {
+  rpc Create(RolePolicyRequest) returns (RolePolicyResponse);
+  rpc Update(RolePolicyRequest) returns (RolePolicyResponse);
+  rpc FindAll(RolePolicyRequest) returns (RolePolicyListResponse);
+  rpc FindOne(RolePolicyRequest) returns (RolePolicyResponse);
+  rpc Enabled(Entity) returns (RolePolicyResponse);
+  rpc Disable(Entity) returns (RolePolicyResponse);
+}

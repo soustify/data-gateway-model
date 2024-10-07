@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message ContextDomainTableDetail {
+  Entity Entity = 1;
+  string id_context_domain = 2;
+  string context_name = 3;
+  string id_pk = 4;
+}
+
+message ContextDomainTableDetailRequest {
+  ContextDomainTableDetail payload = 1;
+}
+
+message ContextDomainTableDetailResponse {
+  ContextDomainTableDetail response = 1;
+}
+
+message ContextDomainTableDetailListResponse {
+  repeated ContextDomainTableDetail response = 1;
+}
+
+service ContextDomainTableDetailService {
+  rpc Create(ContextDomainTableDetailRequest) returns (ContextDomainTableDetailResponse);
+  rpc Update(ContextDomainTableDetailRequest) returns (ContextDomainTableDetailResponse);
+  rpc FindAll(ContextDomainTableDetailRequest) returns (ContextDomainTableDetailListResponse);
+  rpc FindOne(ContextDomainTableDetailRequest) returns (ContextDomainTableDetailResponse);
+  rpc Enabled(Entity) returns (ContextDomainTableDetailResponse);
+  rpc Disable(Entity) returns (ContextDomainTableDetailResponse);
+}

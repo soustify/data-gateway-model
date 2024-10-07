@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message Contact {
+  Entity Entity = 1;
+  string type = 2;
+  string value = 3;
+}
+
+message ContactRequest {
+  Contact payload = 1;
+}
+
+message ContactResponse {
+  Contact response = 1;
+}
+
+message ContactListResponse {
+  repeated Contact response = 1;
+}
+
+service ContactService {
+  rpc Create(ContactRequest) returns (ContactResponse);
+  rpc Update(ContactRequest) returns (ContactResponse);
+  rpc FindAll(ContactRequest) returns (ContactListResponse);
+  rpc FindOne(ContactRequest) returns (ContactResponse);
+  rpc Enabled(Entity) returns (ContactResponse);
+  rpc Disable(Entity) returns (ContactResponse);
+}

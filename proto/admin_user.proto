@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message AdminUser {
+  Entity Entity = 1;
+  string name = 2;
+  string email = 3;
+  string id_cognito = 4;
+  string id_role_application = 5;
+}
+
+message AdminUserRequest {
+  AdminUser payload = 1;
+}
+
+message AdminUserResponse {
+  AdminUser response = 1;
+}
+
+message AdminUserListResponse {
+  repeated AdminUser response = 1;
+}
+
+service AdminUserService {
+  rpc Create(AdminUserRequest) returns (AdminUserResponse);
+  rpc Update(AdminUserRequest) returns (AdminUserResponse);
+  rpc FindAll(AdminUserRequest) returns (AdminUserListResponse);
+  rpc FindOne(AdminUserRequest) returns (AdminUserResponse);
+  rpc Enabled(Entity) returns (AdminUserResponse);
+  rpc Disable(Entity) returns (AdminUserResponse);
+}

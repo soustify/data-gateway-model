@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message ContextDomainTransaction {
+  Entity Entity = 1;
+  string id_cognito = 2;
+  string cognito_pool = 3;
+}
+
+message ContextDomainTransactionRequest {
+  ContextDomainTransaction payload = 1;
+}
+
+message ContextDomainTransactionResponse {
+  ContextDomainTransaction response = 1;
+}
+
+message ContextDomainTransactionListResponse {
+  repeated ContextDomainTransaction response = 1;
+}
+
+service ContextDomainTransactionService {
+  rpc Create(ContextDomainTransactionRequest) returns (ContextDomainTransactionResponse);
+  rpc Update(ContextDomainTransactionRequest) returns (ContextDomainTransactionResponse);
+  rpc FindAll(ContextDomainTransactionRequest) returns (ContextDomainTransactionListResponse);
+  rpc FindOne(ContextDomainTransactionRequest) returns (ContextDomainTransactionResponse);
+  rpc Enabled(Entity) returns (ContextDomainTransactionResponse);
+  rpc Disable(Entity) returns (ContextDomainTransactionResponse);
+}

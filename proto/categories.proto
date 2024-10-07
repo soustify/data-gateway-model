@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message Category {
+  Entity Entity = 1;
+  string name = 2;
+}
+
+message CategoryRequest {
+  Category payload = 1;
+}
+
+message CategoryResponse {
+  Category response = 1;
+}
+
+message CategoryListResponse {
+  repeated Category response = 1;
+}
+
+service CategoryService {
+  rpc Create(CategoryRequest) returns (CategoryResponse);
+  rpc Update(CategoryRequest) returns (CategoryResponse);
+  rpc FindAll(CategoryRequest) returns (CategoryListResponse);
+  rpc FindOne(CategoryRequest) returns (CategoryResponse);
+  rpc Enabled(Entity) returns (CategoryResponse);
+  rpc Disable(Entity) returns (CategoryResponse);
+}

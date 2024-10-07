@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message ContextDomainChange {
+  Entity Entity = 1;
+  string field = 2;
+  string value = 3;
+  string id_context_domain_table = 4;
+  string previous_value = 5;
+}
+
+message ContextDomainChangeRequest {
+  ContextDomainChange payload = 1;
+}
+
+message ContextDomainChangeResponse {
+  ContextDomainChange response = 1;
+}
+
+message ContextDomainChangeListResponse {
+  repeated ContextDomainChange response = 1;
+}
+
+service ContextDomainChangeService {
+  rpc Create(ContextDomainChange) returns (ContextDomainChangeResponse);
+  rpc Update(ContextDomainChange) returns (ContextDomainChangeResponse);
+  rpc FindAll(ContextDomainChange) returns (ContextDomainChangeListResponse);
+  rpc FindOne(ContextDomainChange) returns (ContextDomainChangeResponse);
+  rpc Enabled(Entity) returns (ContextDomainChangeResponse);
+  rpc Disable(Entity) returns (ContextDomainChangeResponse);
+}

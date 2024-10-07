@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message Role {
+  Entity Entity = 1;
+  string name = 2;
+}
+
+message RoleRequest {
+  Role payload = 1;
+}
+
+message RoleResponse {
+  Role response = 1;
+}
+
+message RoleListResponse {
+  repeated Role response = 1;
+}
+
+service RoleService {
+  rpc Create(RoleRequest) returns (RoleResponse);
+  rpc Update(RoleRequest) returns (RoleResponse);
+  rpc FindAll(RoleRequest) returns (RoleListResponse);
+  rpc FindOne(RoleRequest) returns (RoleResponse);
+  rpc Enabled(Entity) returns (RoleResponse);
+  rpc Disable(Entity) returns (RoleResponse);
+}

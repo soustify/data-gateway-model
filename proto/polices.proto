@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message Policy {
+  Entity Entity = 1;
+  string name = 2;
+}
+
+message PolicyRequest {
+  Policy payload = 1;
+}
+
+message PolicyResponse {
+  Policy response = 1;
+}
+
+message PolicyListResponse {
+  repeated Policy response = 1;
+}
+
+service PolicyService {
+  rpc Create(PolicyRequest) returns (PolicyResponse);
+  rpc Update(PolicyRequest) returns (PolicyResponse);
+  rpc FindAll(PolicyRequest) returns (PolicyListResponse);
+  rpc FindOne(PolicyRequest) returns (PolicyResponse);
+  rpc Enabled(Entity) returns (PolicyResponse);
+  rpc Disable(Entity) returns (PolicyResponse);
+}

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message CategoriesServices {
+  Entity Entity = 1;
+  string id_category = 2;
+  string id_service = 3;
+}
+
+message CategoriesServicesRequest {
+  CategoriesServices payload = 1;
+}
+
+message CategoriesServicesResponse {
+  CategoriesServices response = 1;
+}
+
+message CategoriesServicesListResponse {
+  repeated CategoriesServices response = 1;
+}
+
+service CategoriesServicesService {
+  rpc Create(CategoriesServicesRequest) returns (CategoriesServicesResponse);
+  rpc Update(CategoriesServicesRequest) returns (CategoriesServicesResponse);
+  rpc FindAll(CategoriesServicesRequest) returns (CategoriesServicesListResponse);
+  rpc FindOne(CategoriesServicesRequest) returns (CategoriesServicesResponse);
+  rpc Enabled(Entity) returns (CategoriesServicesResponse);
+  rpc Disable(Entity) returns (CategoriesServicesResponse);
+}

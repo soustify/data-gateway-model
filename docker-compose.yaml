@@ -1,13 +1,5 @@
 version: '3.8'
 services:
-#  grpc_server:
-#    image: grpc_server:latest
-#    ports:
-#      - "50051:50051"
-#    environment:
-#      PORT: 50051
-
-
   app:
     image: protobuf:latest
     volumes:
@@ -19,7 +11,14 @@ services:
       - |
         rm -rf pkg/pb/proto
         mkdir -p pkg/pb/proto
-        protoc --go_out=pkg/pb --go_opt=paths=source_relative \
+        protoc -I=proto --go_out=pkg/pb --go_opt=paths=source_relative \
                --go-grpc_out=pkg/pb --go-grpc_opt=paths=source_relative \
                proto/*.proto
         chmod 777 -R pkg/pb
+
+#  grpc_server:
+#    image: grpc_server:latest
+#    ports:
+#      - "50051:50051"
+#    environment:
+#      PORT: 50051

@@ -4,21 +4,30 @@ package domain;
 
 option go_package = "pkg/pb;pb";
 
-message DocumentTypeRequest {
-  string Id = 1;
+import "base.proto";
+
+message DocumentType {
+  Entity Entity = 1;
   string Name = 2;
+}
+
+message DocumentTypeRequest {
+    DocumentType payload = 1;
 }
 
 message DocumentTypeResponse {
-  string Id = 1;
-  string Name = 2;
+    DocumentType response = 1;
 }
 
 message DocumentTypeListResponse {
-  repeated DocumentTypeResponse list = 1;
+  repeated DocumentType response = 1;
 }
 
 service DocumentTypeService {
-  rpc Save(DocumentTypeRequest) returns (DocumentTypeResponse);
-  rpc Find(DocumentTypeRequest) returns (DocumentTypeListResponse);
+  rpc Create(DocumentTypeRequest) returns (DocumentTypeResponse);
+  rpc Update(DocumentTypeRequest) returns (DocumentTypeResponse);
+  rpc FindAll(DocumentTypeRequest) returns (DocumentTypeListResponse);
+  rpc FindOne(DocumentTypeRequest) returns (DocumentTypeResponse);
+  rpc Enabled(Entity) returns (DocumentTypeResponse);
+  rpc Disable(Entity) returns (DocumentTypeResponse);
 }

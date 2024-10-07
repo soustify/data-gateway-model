@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message PartnersServices {
+  Entity Entity = 1;
+  string id_partner = 2;
+  string id_service = 3;
+}
+
+message PartnersServicesRequest {
+  PartnersServices payload = 1;
+}
+
+message PartnersServicesResponse {
+  PartnersServices response = 1;
+}
+
+message PartnersServicesListResponse {
+  repeated PartnersServices response = 1;
+}
+
+service PartnersServicesService {
+  rpc Create(PartnersServicesRequest) returns (PartnersServicesResponse);
+  rpc Update(PartnersServicesRequest) returns (PartnersServicesResponse);
+  rpc FindAll(PartnersServicesRequest) returns (PartnersServicesListResponse);
+  rpc FindOne(PartnersServicesRequest) returns (PartnersServicesResponse);
+  rpc Enabled(Entity) returns (PartnersServicesResponse);
+  rpc Disable(Entity) returns (PartnersServicesResponse);
+}

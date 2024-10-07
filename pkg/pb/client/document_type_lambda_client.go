@@ -3,7 +3,7 @@ package client
 import (
 	"context"
 	"fmt"
-	pb "github.com/soustify/data-gateway-model/pkg/pb/proto"
+	"github.com/soustify/data-gateway-model/pkg/pb"
 	"google.golang.org/grpc"
 )
 
@@ -15,16 +15,38 @@ var (
 // documentTypeServiceClient implements the DocumentTypeServiceClient interface
 type documentTypeServiceClient struct{}
 
-// Find implements DocumentTypeServiceClient.Find
-func (c *documentTypeServiceClient) Find(ctx context.Context, body *pb.DocumentTypeRequest, _ ...grpc.CallOption) (*pb.DocumentTypeListResponse, error) {
-	var result *pb.DocumentTypeListResponse
-	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_find", transactionsLambdaName), body, &result)
+func (c *documentTypeServiceClient) Create(ctx context.Context, body *pb.DocumentTypeRequest, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
+	var result *pb.DocumentTypeResponse
+	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_create", transactionsLambdaName), body, &result)
 	return result, err
 }
 
-// Save implements DocumentTypeServiceClient.Save
-func (c *documentTypeServiceClient) Save(ctx context.Context, body *pb.DocumentTypeRequest, _ ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
+func (c *documentTypeServiceClient) Update(ctx context.Context, body *pb.DocumentTypeRequest, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
 	var result *pb.DocumentTypeResponse
-	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_save", transactionsLambdaName), body, &result)
+	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_update", transactionsLambdaName), body, &result)
+	return result, err
+}
+
+func (c *documentTypeServiceClient) FindAll(ctx context.Context, body *pb.DocumentTypeRequest, opts ...grpc.CallOption) (*pb.DocumentTypeListResponse, error) {
+	var result *pb.DocumentTypeListResponse
+	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_find_all", transactionsLambdaName), body, &result)
+	return result, err
+}
+
+func (c *documentTypeServiceClient) FindOne(ctx context.Context, body *pb.DocumentTypeRequest, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
+	var result *pb.DocumentTypeResponse
+	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_find_one", transactionsLambdaName), body, &result)
+	return result, err
+}
+
+func (c *documentTypeServiceClient) Enabled(ctx context.Context, body *pb.Entity, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
+	var result *pb.DocumentTypeResponse
+	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_enabled", transactionsLambdaName), body, &result)
+	return result, err
+}
+
+func (c *documentTypeServiceClient) Disable(ctx context.Context, body *pb.Entity, opts ...grpc.CallOption) (*pb.DocumentTypeResponse, error) {
+	var result *pb.DocumentTypeResponse
+	err := invokeAndUnmarshal(ctx, fmt.Sprintf("%s_disable", transactionsLambdaName), body, &result)
 	return result, err
 }

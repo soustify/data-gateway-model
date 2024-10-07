@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message Application {
+  Entity Entity = 1;
+  string name = 2;
+}
+
+message ApplicationRequest {
+  Application payload = 1;
+}
+
+message ApplicationResponse {
+  Application response = 1;
+}
+
+message ApplicationListResponse {
+  repeated Application response = 1;
+}
+
+service ApplicationService {
+  rpc Create(ApplicationRequest) returns (ApplicationResponse);
+  rpc Update(ApplicationRequest) returns (ApplicationResponse);
+  rpc FindAll(ApplicationRequest) returns (ApplicationListResponse);
+  rpc FindOne(ApplicationRequest) returns (ApplicationResponse);
+  rpc Enabled(Entity) returns (ApplicationResponse);
+  rpc Disable(Entity) returns (ApplicationResponse);
+}

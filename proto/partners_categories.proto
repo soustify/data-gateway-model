@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message PartnerCategory {
+  Entity Entity = 1;
+  string id_partner = 2;
+  string id_category = 3;
+}
+
+message PartnerCategoryRequest {
+  PartnerCategory payload = 1;
+}
+
+message PartnerCategoryResponse {
+  PartnerCategory response = 1;
+}
+
+message PartnerCategoryListResponse {
+  repeated PartnerCategory response = 1;
+}
+
+service PartnerCategoryService {
+  rpc Create(PartnerCategoryRequest) returns (PartnerCategoryResponse);
+  rpc Update(PartnerCategoryRequest) returns (PartnerCategoryResponse);
+  rpc FindAll(PartnerCategoryRequest) returns (PartnerCategoryListResponse);
+  rpc FindOne(PartnerCategoryRequest) returns (PartnerCategoryResponse);
+  rpc Enabled(Entity) returns (PartnerCategoryResponse);
+  rpc Disable(Entity) returns (PartnerCategoryResponse);
+}

@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message Address {
+  Entity Entity = 1;
+  string street = 2;
+  double latitude = 3;
+  double longitude = 4;
+  string zip_code = 5;
+  string complement = 6;
+  string neighborhood = 7;
+}
+
+message AddressRequest {
+  Address payload = 1;
+}
+
+message AddressResponse {
+  Address response = 1;
+}
+
+message AddressListResponse {
+  repeated Address response = 1;
+}
+
+service AddressService {
+  rpc Create(AddressRequest) returns (AddressResponse);
+  rpc Update(AddressRequest) returns (AddressResponse);
+  rpc FindAll(AddressRequest) returns (AddressListResponse);
+  rpc FindOne(AddressRequest) returns (AddressResponse);
+  rpc Enabled(Entity) returns (AddressResponse);
+  rpc Disable(Entity) returns (AddressResponse);
+}

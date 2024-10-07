@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "pkg/pb;pb";
+
+import "base.proto";
+
+message PartnerContact {
+  Entity Entity = 1;
+  string id_partner = 2;
+  string id_contact = 3;
+}
+
+message PartnerContactRequest {
+  PartnerContact payload = 1;
+}
+
+message PartnerContactResponse {
+  PartnerContact response = 1;
+}
+
+message PartnerContactListResponse {
+  repeated PartnerContact response = 1;
+}
+
+service PartnerContactService {
+  rpc Create(PartnerContactRequest) returns (PartnerContactResponse);
+  rpc Update(PartnerContactRequest) returns (PartnerContactResponse);
+  rpc FindAll(PartnerContactRequest) returns (PartnerContactListResponse);
+  rpc FindOne(PartnerContactRequest) returns (PartnerContactResponse);
+  rpc Enabled(Entity) returns (PartnerContactResponse);
+  rpc Disable(Entity) returns (PartnerContactResponse);
+}
