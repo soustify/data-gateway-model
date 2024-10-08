@@ -16,8 +16,9 @@ message Address {
   string neighborhood = 7;
 }
 
-message AddressRequest {
+message AddressListRequest {
   Address payload = 1;
+  Metadata metadata = 2;
 }
 
 message AddressResponse {
@@ -29,10 +30,7 @@ message AddressListResponse {
 }
 
 service AddressService {
-  rpc Create(AddressRequest) returns (AddressResponse);
-  rpc Update(AddressRequest) returns (AddressResponse);
-  rpc FindAll(AddressRequest) returns (AddressListResponse);
-  rpc FindOne(AddressRequest) returns (AddressResponse);
-  rpc Enabled(Entity) returns (AddressResponse);
-  rpc Disable(Entity) returns (AddressResponse);
+  rpc Create(Address) returns (AddressResponse);
+  rpc Update(Address) returns (AddressResponse);
+  rpc FindAll(AddressListRequest) returns (AddressListResponse);
 }

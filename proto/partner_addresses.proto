@@ -12,8 +12,9 @@ message PartnerAddress {
   string id_address = 3;
 }
 
-message PartnerAddressRequest {
+message PartnerAddressListRequest {
   PartnerAddress payload = 1;
+  Metadata metadata = 2;
 }
 
 message PartnerAddressResponse {
@@ -25,10 +26,7 @@ message PartnerAddressListResponse {
 }
 
 service PartnerAddressService {
-  rpc Create(PartnerAddressRequest) returns (PartnerAddressResponse);
-  rpc Update(PartnerAddressRequest) returns (PartnerAddressResponse);
-  rpc FindAll(PartnerAddressRequest) returns (PartnerAddressListResponse);
-  rpc FindOne(PartnerAddressRequest) returns (PartnerAddressResponse);
-  rpc Enabled(Entity) returns (PartnerAddressResponse);
-  rpc Disable(Entity) returns (PartnerAddressResponse);
+  rpc Create(PartnerAddress) returns (PartnerAddressResponse);
+  rpc Update(PartnerAddress) returns (PartnerAddressResponse);
+  rpc FindAll(PartnerAddressListRequest) returns (PartnerAddressListResponse);
 }

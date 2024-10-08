@@ -15,8 +15,9 @@ message PartnerUser {
   string id_role_application = 6;
 }
 
-message PartnerUserRequest {
+message PartnerUserListRequest {
   PartnerUser payload = 1;
+  Metadata metadata = 2;
 }
 
 message PartnerUserResponse {
@@ -28,10 +29,7 @@ message PartnerUserListResponse {
 }
 
 service PartnerUserService {
-  rpc Create(PartnerUserRequest) returns (PartnerUserResponse);
-  rpc Update(PartnerUserRequest) returns (PartnerUserResponse);
-  rpc FindAll(PartnerUserRequest) returns (PartnerUserListResponse);
-  rpc FindOne(PartnerUserRequest) returns (PartnerUserResponse);
-  rpc Enabled(Entity) returns (PartnerUserResponse);
-  rpc Disable(Entity) returns (PartnerUserResponse);
+  rpc Create(PartnerUser) returns (PartnerUserResponse);
+  rpc Update(PartnerUser) returns (PartnerUserResponse);
+  rpc FindAll(PartnerUserListRequest) returns (PartnerUserListResponse);
 }

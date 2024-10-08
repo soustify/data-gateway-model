@@ -12,8 +12,9 @@ message CategoriesServices {
   string id_service = 3;
 }
 
-message CategoriesServicesRequest {
+message CategoriesServicesListRequest {
   CategoriesServices payload = 1;
+  Metadata metadata = 2;
 }
 
 message CategoriesServicesResponse {
@@ -25,10 +26,7 @@ message CategoriesServicesListResponse {
 }
 
 service CategoriesServicesService {
-  rpc Create(CategoriesServicesRequest) returns (CategoriesServicesResponse);
-  rpc Update(CategoriesServicesRequest) returns (CategoriesServicesResponse);
-  rpc FindAll(CategoriesServicesRequest) returns (CategoriesServicesListResponse);
-  rpc FindOne(CategoriesServicesRequest) returns (CategoriesServicesResponse);
-  rpc Enabled(Entity) returns (CategoriesServicesResponse);
-  rpc Disable(Entity) returns (CategoriesServicesResponse);
+  rpc Create(CategoriesServices) returns (CategoriesServicesResponse);
+  rpc Update(CategoriesServices) returns (CategoriesServicesResponse);
+  rpc FindAll(CategoriesServicesListRequest) returns (CategoriesServicesListResponse);
 }

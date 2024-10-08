@@ -12,8 +12,9 @@ message Service {
   string description = 3;
 }
 
-message ServiceRequest {
+message ServiceListRequest {
   Service payload = 1;
+  Metadata metadata = 2;
 }
 
 message ServiceResponse {
@@ -25,10 +26,7 @@ message ServiceListResponse {
 }
 
 service ServiceService {
-  rpc Create(ServiceRequest) returns (ServiceResponse);
-  rpc Update(ServiceRequest) returns (ServiceResponse);
-  rpc FindAll(ServiceRequest) returns (ServiceListResponse);
-  rpc FindOne(ServiceRequest) returns (ServiceResponse);
-  rpc Enabled(Entity) returns (ServiceResponse);
-  rpc Disable(Entity) returns (ServiceResponse);
+  rpc Create(Service) returns (ServiceResponse);
+  rpc Update(Service) returns (ServiceResponse);
+  rpc FindAll(ServiceListRequest) returns (ServiceListResponse);
 }

@@ -11,8 +11,9 @@ message Application {
   string name = 2;
 }
 
-message ApplicationRequest {
+message ApplicationListRequest {
   Application payload = 1;
+  Metadata metadata = 2;
 }
 
 message ApplicationResponse {
@@ -24,10 +25,7 @@ message ApplicationListResponse {
 }
 
 service ApplicationService {
-  rpc Create(ApplicationRequest) returns (ApplicationResponse);
-  rpc Update(ApplicationRequest) returns (ApplicationResponse);
-  rpc FindAll(ApplicationRequest) returns (ApplicationListResponse);
-  rpc FindOne(ApplicationRequest) returns (ApplicationResponse);
-  rpc Enabled(Entity) returns (ApplicationResponse);
-  rpc Disable(Entity) returns (ApplicationResponse);
+  rpc Create(Application) returns (ApplicationResponse);
+  rpc Update(Application) returns (ApplicationResponse);
+  rpc FindAll(ApplicationListRequest) returns (ApplicationListResponse);
 }

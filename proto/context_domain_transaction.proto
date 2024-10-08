@@ -12,8 +12,9 @@ message ContextDomainTransaction {
   string cognito_pool = 3;
 }
 
-message ContextDomainTransactionRequest {
+message ContextDomainTransactionListRequest {
   ContextDomainTransaction payload = 1;
+  Metadata metadata = 2;
 }
 
 message ContextDomainTransactionResponse {
@@ -25,10 +26,7 @@ message ContextDomainTransactionListResponse {
 }
 
 service ContextDomainTransactionService {
-  rpc Create(ContextDomainTransactionRequest) returns (ContextDomainTransactionResponse);
-  rpc Update(ContextDomainTransactionRequest) returns (ContextDomainTransactionResponse);
-  rpc FindAll(ContextDomainTransactionRequest) returns (ContextDomainTransactionListResponse);
-  rpc FindOne(ContextDomainTransactionRequest) returns (ContextDomainTransactionResponse);
-  rpc Enabled(Entity) returns (ContextDomainTransactionResponse);
-  rpc Disable(Entity) returns (ContextDomainTransactionResponse);
+  rpc Create(ContextDomainTransaction) returns (ContextDomainTransactionResponse);
+  rpc Update(ContextDomainTransaction) returns (ContextDomainTransactionResponse);
+  rpc FindAll(ContextDomainTransactionListRequest) returns (ContextDomainTransactionListResponse);
 }

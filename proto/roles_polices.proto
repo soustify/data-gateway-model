@@ -12,8 +12,9 @@ message RolePolicy {
   string id_policy = 3;
 }
 
-message RolePolicyRequest {
+message RolePolicyListRequest {
   RolePolicy payload = 1;
+  Metadata metadata = 2;
 }
 
 message RolePolicyResponse {
@@ -25,10 +26,7 @@ message RolePolicyListResponse {
 }
 
 service RolePolicyService {
-  rpc Create(RolePolicyRequest) returns (RolePolicyResponse);
-  rpc Update(RolePolicyRequest) returns (RolePolicyResponse);
-  rpc FindAll(RolePolicyRequest) returns (RolePolicyListResponse);
-  rpc FindOne(RolePolicyRequest) returns (RolePolicyResponse);
-  rpc Enabled(Entity) returns (RolePolicyResponse);
-  rpc Disable(Entity) returns (RolePolicyResponse);
+  rpc Create(RolePolicy) returns (RolePolicyResponse);
+  rpc Update(RolePolicy) returns (RolePolicyResponse);
+  rpc FindAll(RolePolicyListRequest) returns (RolePolicyListResponse);
 }

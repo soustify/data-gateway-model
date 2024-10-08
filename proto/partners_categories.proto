@@ -12,8 +12,9 @@ message PartnerCategory {
   string id_category = 3;
 }
 
-message PartnerCategoryRequest {
+message PartnerCategoryListRequest {
   PartnerCategory payload = 1;
+  Metadata metadata = 2;
 }
 
 message PartnerCategoryResponse {
@@ -25,10 +26,7 @@ message PartnerCategoryListResponse {
 }
 
 service PartnerCategoryService {
-  rpc Create(PartnerCategoryRequest) returns (PartnerCategoryResponse);
-  rpc Update(PartnerCategoryRequest) returns (PartnerCategoryResponse);
-  rpc FindAll(PartnerCategoryRequest) returns (PartnerCategoryListResponse);
-  rpc FindOne(PartnerCategoryRequest) returns (PartnerCategoryResponse);
-  rpc Enabled(Entity) returns (PartnerCategoryResponse);
-  rpc Disable(Entity) returns (PartnerCategoryResponse);
+  rpc Create(PartnerCategory) returns (PartnerCategoryResponse);
+  rpc Update(PartnerCategory) returns (PartnerCategoryResponse);
+  rpc FindAll(PartnerCategoryListRequest) returns (PartnerCategoryListResponse);
 }

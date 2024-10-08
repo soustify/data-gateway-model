@@ -11,8 +11,9 @@ message DocumentType {
   string Name = 2;
 }
 
-message DocumentTypeRequest {
-    DocumentType payload = 1;
+message DocumentTypeListRequest {
+  DocumentType payload = 1;
+  Metadata metadata = 2;
 }
 
 message DocumentTypeResponse {
@@ -24,10 +25,7 @@ message DocumentTypeListResponse {
 }
 
 service DocumentTypeService {
-  rpc Create(DocumentTypeRequest) returns (DocumentTypeResponse);
-  rpc Update(DocumentTypeRequest) returns (DocumentTypeResponse);
-  rpc FindAll(DocumentTypeRequest) returns (DocumentTypeListResponse);
-  rpc FindOne(DocumentTypeRequest) returns (DocumentTypeResponse);
-  rpc Enabled(Entity) returns (DocumentTypeResponse);
-  rpc Disable(Entity) returns (DocumentTypeResponse);
+  rpc Create(DocumentType) returns (DocumentTypeResponse);
+  rpc Update(DocumentType) returns (DocumentTypeResponse);
+  rpc FindAll(DocumentTypeListRequest) returns (DocumentTypeListResponse);
 }

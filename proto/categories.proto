@@ -11,8 +11,9 @@ message Category {
   string name = 2;
 }
 
-message CategoryRequest {
+message CategoryListRequest {
   Category payload = 1;
+  Metadata metadata = 2;
 }
 
 message CategoryResponse {
@@ -24,10 +25,7 @@ message CategoryListResponse {
 }
 
 service CategoryService {
-  rpc Create(CategoryRequest) returns (CategoryResponse);
-  rpc Update(CategoryRequest) returns (CategoryResponse);
-  rpc FindAll(CategoryRequest) returns (CategoryListResponse);
-  rpc FindOne(CategoryRequest) returns (CategoryResponse);
-  rpc Enabled(Entity) returns (CategoryResponse);
-  rpc Disable(Entity) returns (CategoryResponse);
+  rpc Create(Category) returns (CategoryResponse);
+  rpc Update(Category) returns (CategoryResponse);
+  rpc FindAll(CategoryListRequest) returns (CategoryListResponse);
 }

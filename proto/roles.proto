@@ -11,8 +11,9 @@ message Role {
   string name = 2;
 }
 
-message RoleRequest {
+message RoleListRequest {
   Role payload = 1;
+  Metadata metadata = 2;
 }
 
 message RoleResponse {
@@ -24,10 +25,7 @@ message RoleListResponse {
 }
 
 service RoleService {
-  rpc Create(RoleRequest) returns (RoleResponse);
-  rpc Update(RoleRequest) returns (RoleResponse);
-  rpc FindAll(RoleRequest) returns (RoleListResponse);
-  rpc FindOne(RoleRequest) returns (RoleResponse);
-  rpc Enabled(Entity) returns (RoleResponse);
-  rpc Disable(Entity) returns (RoleResponse);
+  rpc Create(Role) returns (RoleResponse);
+  rpc Update(Role) returns (RoleResponse);
+  rpc FindAll(RoleListRequest) returns (RoleListResponse);
 }

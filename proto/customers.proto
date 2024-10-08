@@ -12,8 +12,9 @@ message Customer {
   string name = 3;
 }
 
-message CustomerRequest {
+message CustomerListRequest {
   Customer payload = 1;
+  Metadata metadata = 2;
 }
 
 message CustomerResponse {
@@ -25,10 +26,7 @@ message CustomerListResponse {
 }
 
 service CustomerService {
-  rpc Create(CustomerRequest) returns (CustomerResponse);
-  rpc Update(CustomerRequest) returns (CustomerResponse);
-  rpc FindAll(CustomerRequest) returns (CustomerListResponse);
-  rpc FindOne(CustomerRequest) returns (CustomerResponse);
-  rpc Enabled(Entity) returns (CustomerResponse);
-  rpc Disable(Entity) returns (CustomerResponse);
+  rpc Create(Customer) returns (CustomerResponse);
+  rpc Update(Customer) returns (CustomerResponse);
+  rpc FindAll(CustomerListRequest) returns (CustomerListResponse);
 }

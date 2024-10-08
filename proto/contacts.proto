@@ -12,8 +12,9 @@ message Contact {
   string value = 3;
 }
 
-message ContactRequest {
+message ContactListRequest {
   Contact payload = 1;
+  Metadata metadata = 2;
 }
 
 message ContactResponse {
@@ -25,10 +26,7 @@ message ContactListResponse {
 }
 
 service ContactService {
-  rpc Create(ContactRequest) returns (ContactResponse);
-  rpc Update(ContactRequest) returns (ContactResponse);
-  rpc FindAll(ContactRequest) returns (ContactListResponse);
-  rpc FindOne(ContactRequest) returns (ContactResponse);
-  rpc Enabled(Entity) returns (ContactResponse);
-  rpc Disable(Entity) returns (ContactResponse);
+  rpc Create(Contact) returns (ContactResponse);
+  rpc Update(Contact) returns (ContactResponse);
+  rpc FindAll(ContactListRequest) returns (ContactListResponse);
 }

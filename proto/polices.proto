@@ -11,8 +11,9 @@ message Policy {
   string name = 2;
 }
 
-message PolicyRequest {
+message PolicyListRequest {
   Policy payload = 1;
+  Metadata metadata = 2;
 }
 
 message PolicyResponse {
@@ -24,10 +25,7 @@ message PolicyListResponse {
 }
 
 service PolicyService {
-  rpc Create(PolicyRequest) returns (PolicyResponse);
-  rpc Update(PolicyRequest) returns (PolicyResponse);
-  rpc FindAll(PolicyRequest) returns (PolicyListResponse);
-  rpc FindOne(PolicyRequest) returns (PolicyResponse);
-  rpc Enabled(Entity) returns (PolicyResponse);
-  rpc Disable(Entity) returns (PolicyResponse);
+  rpc Create(Policy) returns (PolicyResponse);
+  rpc Update(Policy) returns (PolicyResponse);
+  rpc FindAll(PolicyListRequest) returns (PolicyListResponse);
 }

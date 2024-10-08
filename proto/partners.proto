@@ -13,8 +13,9 @@ message Partner {
   string id_document_type = 5;
 }
 
-message PartnerRequest {
+message PartnerListRequest {
   Partner payload = 1;
+  Metadata metadata = 2;
 }
 
 message PartnerResponse {
@@ -26,10 +27,7 @@ message PartnerListResponse {
 }
 
 service PartnerService {
-  rpc Create(PartnerRequest) returns (PartnerResponse);
-  rpc Update(PartnerRequest) returns (PartnerResponse);
-  rpc FindAll(PartnerRequest) returns (PartnerListResponse);
-  rpc FindOne(PartnerRequest) returns (PartnerResponse);
-  rpc Enabled(Entity) returns (PartnerResponse);
-  rpc Disable(Entity) returns (PartnerResponse);
+  rpc Create(Partner) returns (PartnerResponse);
+  rpc Update(Partner) returns (PartnerResponse);
+  rpc FindAll(PartnerListRequest) returns (PartnerListResponse);
 }

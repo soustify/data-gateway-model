@@ -14,8 +14,9 @@ message ContextDomainChange {
   string previous_value = 5;
 }
 
-message ContextDomainChangeRequest {
+message ContextDomainChangeListRequest {
   ContextDomainChange payload = 1;
+  Metadata metadata = 2;
 }
 
 message ContextDomainChangeResponse {
@@ -29,8 +30,5 @@ message ContextDomainChangeListResponse {
 service ContextDomainChangeService {
   rpc Create(ContextDomainChange) returns (ContextDomainChangeResponse);
   rpc Update(ContextDomainChange) returns (ContextDomainChangeResponse);
-  rpc FindAll(ContextDomainChange) returns (ContextDomainChangeListResponse);
-  rpc FindOne(ContextDomainChange) returns (ContextDomainChangeResponse);
-  rpc Enabled(Entity) returns (ContextDomainChangeResponse);
-  rpc Disable(Entity) returns (ContextDomainChangeResponse);
+  rpc FindAll(ContextDomainChangeListRequest) returns (ContextDomainChangeListResponse);
 }

@@ -12,8 +12,9 @@ message ServiceCost {
   double value = 3;
 }
 
-message ServiceCostRequest {
+message ServiceCostListRequest {
   ServiceCost payload = 1;
+  Metadata metadata = 2;
 }
 
 message ServiceCostResponse {
@@ -25,10 +26,7 @@ message ServiceCostListResponse {
 }
 
 service ServiceCostService {
-  rpc Create(ServiceCostRequest) returns (ServiceCostResponse);
-  rpc Update(ServiceCostRequest) returns (ServiceCostResponse);
-  rpc FindAll(ServiceCostRequest) returns (ServiceCostListResponse);
-  rpc FindOne(ServiceCostRequest) returns (ServiceCostResponse);
-  rpc Enabled(Entity) returns (ServiceCostResponse);
-  rpc Disable(Entity) returns (ServiceCostResponse);
+  rpc Create(ServiceCost) returns (ServiceCostResponse);
+  rpc Update(ServiceCost) returns (ServiceCostResponse);
+  rpc FindAll(ServiceCostListRequest) returns (ServiceCostListResponse);
 }

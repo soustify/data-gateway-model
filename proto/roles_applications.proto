@@ -12,8 +12,9 @@ message RoleApplication {
   string id_application = 3;
 }
 
-message RoleApplicationRequest {
+message RoleApplicationListRequest {
   RoleApplication payload = 1;
+  Metadata metadata = 2;
 }
 
 message RoleApplicationResponse {
@@ -25,10 +26,7 @@ message RoleApplicationListResponse {
 }
 
 service RoleApplicationService {
-  rpc Create(RoleApplicationRequest) returns (RoleApplicationResponse);
-  rpc Update(RoleApplicationRequest) returns (RoleApplicationResponse);
-  rpc FindAll(RoleApplicationRequest) returns (RoleApplicationListResponse);
-  rpc FindOne(RoleApplicationRequest) returns (RoleApplicationResponse);
-  rpc Enabled(Entity) returns (RoleApplicationResponse);
-  rpc Disable(Entity) returns (RoleApplicationResponse);
+  rpc Create(RoleApplication) returns (RoleApplicationResponse);
+  rpc Update(RoleApplication) returns (RoleApplicationResponse);
+  rpc FindAll(RoleApplicationListRequest) returns (RoleApplicationListResponse);
 }

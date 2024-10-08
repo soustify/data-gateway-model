@@ -12,8 +12,9 @@ message PartnerContact {
   string id_contact = 3;
 }
 
-message PartnerContactRequest {
+message PartnerContactListRequest {
   PartnerContact payload = 1;
+  Metadata metadata = 2;
 }
 
 message PartnerContactResponse {
@@ -25,10 +26,7 @@ message PartnerContactListResponse {
 }
 
 service PartnerContactService {
-  rpc Create(PartnerContactRequest) returns (PartnerContactResponse);
-  rpc Update(PartnerContactRequest) returns (PartnerContactResponse);
-  rpc FindAll(PartnerContactRequest) returns (PartnerContactListResponse);
-  rpc FindOne(PartnerContactRequest) returns (PartnerContactResponse);
-  rpc Enabled(Entity) returns (PartnerContactResponse);
-  rpc Disable(Entity) returns (PartnerContactResponse);
+  rpc Create(PartnerContact) returns (PartnerContactResponse);
+  rpc Update(PartnerContact) returns (PartnerContactResponse);
+  rpc FindAll(PartnerContactListRequest) returns (PartnerContactListResponse);
 }

@@ -13,8 +13,9 @@ message ContextDomainTableDetail {
   string id_pk = 4;
 }
 
-message ContextDomainTableDetailRequest {
+message ContextDomainTableDetailListRequest {
   ContextDomainTableDetail payload = 1;
+  Metadata metadata = 2;
 }
 
 message ContextDomainTableDetailResponse {
@@ -26,10 +27,7 @@ message ContextDomainTableDetailListResponse {
 }
 
 service ContextDomainTableDetailService {
-  rpc Create(ContextDomainTableDetailRequest) returns (ContextDomainTableDetailResponse);
-  rpc Update(ContextDomainTableDetailRequest) returns (ContextDomainTableDetailResponse);
-  rpc FindAll(ContextDomainTableDetailRequest) returns (ContextDomainTableDetailListResponse);
-  rpc FindOne(ContextDomainTableDetailRequest) returns (ContextDomainTableDetailResponse);
-  rpc Enabled(Entity) returns (ContextDomainTableDetailResponse);
-  rpc Disable(Entity) returns (ContextDomainTableDetailResponse);
+  rpc Create(ContextDomainTableDetail) returns (ContextDomainTableDetailResponse);
+  rpc Update(ContextDomainTableDetail) returns (ContextDomainTableDetailResponse);
+  rpc FindAll(ContextDomainTableDetailListRequest) returns (ContextDomainTableDetailListResponse);
 }

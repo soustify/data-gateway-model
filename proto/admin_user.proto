@@ -14,8 +14,9 @@ message AdminUser {
   string id_role_application = 5;
 }
 
-message AdminUserRequest {
+message AdminUserListRequest {
   AdminUser payload = 1;
+  Metadata metadata = 2;
 }
 
 message AdminUserResponse {
@@ -27,10 +28,7 @@ message AdminUserListResponse {
 }
 
 service AdminUserService {
-  rpc Create(AdminUserRequest) returns (AdminUserResponse);
-  rpc Update(AdminUserRequest) returns (AdminUserResponse);
-  rpc FindAll(AdminUserRequest) returns (AdminUserListResponse);
-  rpc FindOne(AdminUserRequest) returns (AdminUserResponse);
-  rpc Enabled(Entity) returns (AdminUserResponse);
-  rpc Disable(Entity) returns (AdminUserResponse);
+  rpc Create(AdminUser) returns (AdminUserResponse);
+  rpc Update(AdminUser) returns (AdminUserResponse);
+  rpc FindAll(AdminUserListRequest) returns (AdminUserListResponse);
 }
