@@ -28,4 +28,5 @@ service PolicyService {
   rpc Create(Policy) returns (PolicyResponse);
   rpc Update(Policy) returns (PolicyResponse);
   rpc FindAll(PolicyListRequest) returns (PolicyListResponse);
+  rpc Count(Policy) returns (CountResponse);
 }

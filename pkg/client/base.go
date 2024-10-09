@@ -6,13 +6,17 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/lambda"
 	"log"
 	"os"
 )
 
 var (
-	client *lambda.Client
+	client          *lambda.Client
+	accessKeyID     = os.Getenv("AWS_ACCESS_KEY")
+	secretAccessKey = os.Getenv("AWS_SECRET_ACCESS")
+	lambdaEndpoint  = os.Getenv("LAMBDA_ENDPOINT") // Endpoint customizado
 )
 
 func init() {
@@ -20,13 +24,40 @@ func init() {
 	if region == "" {
 		region = "us-east-1"
 	}
-	cfg, err := config.LoadDefaultConfig(context.TODO(),
+	var cfg aws.Config
+	var err error
+
+	// Configuração base
+	options := []func(*config.LoadOptions) error{
 		config.WithRegion(region),
-	)
+	}
+
+	// Se as credenciais forem definidas, use-as
+	if accessKeyID != "" && secretAccessKey != "" {
+		options = append(options, config.WithCredentialsProvider(
+			credentials.NewStaticCredentialsProvider(accessKeyID, secretAccessKey, ""),
+		))
+	}
+
+	// Carrega a configuração com as opções configuradas
+	cfg, err = config.LoadDefaultConfig(context.TODO(), options...)
+	if err != nil {
+		log.Fatalf("erro ao carregar a configuração: %v", err)
+	}
+
 	if err != nil {
 		log.Fatalf("Erro ao carregar configuração da AWS: %v", err)
 	}
-	client = lambda.NewFromConfig(cfg)
+
+	if lambdaEndpoint != "" {
+		client = lambda.NewFromConfig(cfg, func(options *lambda.Options) {
+			options.BaseEndpoint = aws.String(lambdaEndpoint)
+			options.EndpointResolverV2 = lambda.NewDefaultEndpointResolverV2()
+		})
+	} else {
+		client = lambda.NewFromConfig(cfg)
+	}
+
 }
 
 func invoke(ctx context.Context, functionName string, payload interface{}) (*lambda.InvokeOutput, error) {
@@ -54,7 +85,7 @@ func invokeAndUnmarshal(ctx context.Context, functionName string, request interf
 	if err != nil {
 		return err
 	}
-	// Desserializar a resposta
+
 	err = json.Unmarshal(output.Payload, response)
 	if err != nil {
 		return fmt.Errorf("erro ao desserializar a resposta da Lambda: %w", err)

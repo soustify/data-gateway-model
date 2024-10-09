@@ -28,4 +28,5 @@ service DocumentTypeService {
   rpc Create(DocumentType) returns (DocumentTypeResponse);
   rpc Update(DocumentType) returns (DocumentTypeResponse);
   rpc FindAll(DocumentTypeListRequest) returns (DocumentTypeListResponse);
+  rpc Count(DocumentType) returns (CountResponse);
 }

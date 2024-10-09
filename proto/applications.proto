@@ -28,4 +28,5 @@ service ApplicationService {
   rpc Create(Application) returns (ApplicationResponse);
   rpc Update(Application) returns (ApplicationResponse);
   rpc FindAll(ApplicationListRequest) returns (ApplicationListResponse);
+  rpc Count(Application) returns (CountResponse);
 }

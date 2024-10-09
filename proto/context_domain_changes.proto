@@ -31,4 +31,5 @@ service ContextDomainChangeService {
   rpc Create(ContextDomainChange) returns (ContextDomainChangeResponse);
   rpc Update(ContextDomainChange) returns (ContextDomainChangeResponse);
   rpc FindAll(ContextDomainChangeListRequest) returns (ContextDomainChangeListResponse);
+  rpc Count(ContextDomainChange) returns (CountResponse);
 }

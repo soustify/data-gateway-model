@@ -29,4 +29,5 @@ service PartnerContactService {
   rpc Create(PartnerContact) returns (PartnerContactResponse);
   rpc Update(PartnerContact) returns (PartnerContactResponse);
   rpc FindAll(PartnerContactListRequest) returns (PartnerContactListResponse);
+  rpc Count(PartnerContact) returns (CountResponse);
 }

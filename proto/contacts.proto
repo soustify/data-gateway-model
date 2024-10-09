@@ -29,4 +29,5 @@ service ContactService {
   rpc Create(Contact) returns (ContactResponse);
   rpc Update(Contact) returns (ContactResponse);
   rpc FindAll(ContactListRequest) returns (ContactListResponse);
+  rpc Count(Contact) returns (CountResponse);
 }

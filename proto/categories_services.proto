@@ -29,4 +29,5 @@ service CategoriesServicesService {
   rpc Create(CategoriesServices) returns (CategoriesServicesResponse);
   rpc Update(CategoriesServices) returns (CategoriesServicesResponse);
   rpc FindAll(CategoriesServicesListRequest) returns (CategoriesServicesListResponse);
+  rpc Count(CategoriesServices) returns (CountResponse);
 }

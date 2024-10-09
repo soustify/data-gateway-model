@@ -29,4 +29,5 @@ service RolePolicyService {
   rpc Create(RolePolicy) returns (RolePolicyResponse);
   rpc Update(RolePolicy) returns (RolePolicyResponse);
   rpc FindAll(RolePolicyListRequest) returns (RolePolicyListResponse);
+  rpc Count(RolePolicy) returns (CountResponse);
 }

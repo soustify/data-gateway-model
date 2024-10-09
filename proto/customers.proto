@@ -29,4 +29,5 @@ service CustomerService {
   rpc Create(Customer) returns (CustomerResponse);
   rpc Update(Customer) returns (CustomerResponse);
   rpc FindAll(CustomerListRequest) returns (CustomerListResponse);
+  rpc Count(Customer) returns (CountResponse);
 }

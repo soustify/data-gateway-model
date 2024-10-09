@@ -29,4 +29,5 @@ service RoleApplicationService {
   rpc Create(RoleApplication) returns (RoleApplicationResponse);
   rpc Update(RoleApplication) returns (RoleApplicationResponse);
   rpc FindAll(RoleApplicationListRequest) returns (RoleApplicationListResponse);
+  rpc Count(RoleApplication) returns (CountResponse);
 }

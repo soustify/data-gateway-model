@@ -28,4 +28,5 @@ service CategoryService {
   rpc Create(Category) returns (CategoryResponse);
   rpc Update(Category) returns (CategoryResponse);
   rpc FindAll(CategoryListRequest) returns (CategoryListResponse);
+  rpc Count(Category) returns (CountResponse);
 }

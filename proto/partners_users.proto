@@ -32,4 +32,5 @@ service PartnerUserService {
   rpc Create(PartnerUser) returns (PartnerUserResponse);
   rpc Update(PartnerUser) returns (PartnerUserResponse);
   rpc FindAll(PartnerUserListRequest) returns (PartnerUserListResponse);
+  rpc Count(PartnerUser) returns (CountResponse);
 }

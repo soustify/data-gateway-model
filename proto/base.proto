@@ -14,3 +14,6 @@ message Metadata {
   int64 size = 2;
 }
 
+message CountResponse {
+  int64 size = 1;
+}

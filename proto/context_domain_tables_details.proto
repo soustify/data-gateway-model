@@ -30,4 +30,5 @@ service ContextDomainTableDetailService {
   rpc Create(ContextDomainTableDetail) returns (ContextDomainTableDetailResponse);
   rpc Update(ContextDomainTableDetail) returns (ContextDomainTableDetailResponse);
   rpc FindAll(ContextDomainTableDetailListRequest) returns (ContextDomainTableDetailListResponse);
+  rpc Count(ContextDomainTableDetail) returns (CountResponse);
 }

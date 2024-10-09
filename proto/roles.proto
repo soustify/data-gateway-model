@@ -28,4 +28,5 @@ service RoleService {
   rpc Create(Role) returns (RoleResponse);
   rpc Update(Role) returns (RoleResponse);
   rpc FindAll(RoleListRequest) returns (RoleListResponse);
+  rpc Count(Role) returns (CountResponse);
 }

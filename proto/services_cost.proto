@@ -29,4 +29,5 @@ service ServiceCostService {
   rpc Create(ServiceCost) returns (ServiceCostResponse);
   rpc Update(ServiceCost) returns (ServiceCostResponse);
   rpc FindAll(ServiceCostListRequest) returns (ServiceCostListResponse);
+  rpc Count(ServiceCost) returns (CountResponse);
 }

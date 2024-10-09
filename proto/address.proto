@@ -33,4 +33,5 @@ service AddressService {
   rpc Create(Address) returns (AddressResponse);
   rpc Update(Address) returns (AddressResponse);
   rpc FindAll(AddressListRequest) returns (AddressListResponse);
+  rpc Count(Address) returns (CountResponse);
 }

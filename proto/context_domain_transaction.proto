@@ -29,4 +29,5 @@ service ContextDomainTransactionService {
   rpc Create(ContextDomainTransaction) returns (ContextDomainTransactionResponse);
   rpc Update(ContextDomainTransaction) returns (ContextDomainTransactionResponse);
   rpc FindAll(ContextDomainTransactionListRequest) returns (ContextDomainTransactionListResponse);
+  rpc Count(ContextDomainTransaction) returns (CountResponse);
 }

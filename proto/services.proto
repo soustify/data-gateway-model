@@ -29,4 +29,5 @@ service ServiceService {
   rpc Create(Service) returns (ServiceResponse);
   rpc Update(Service) returns (ServiceResponse);
   rpc FindAll(ServiceListRequest) returns (ServiceListResponse);
+  rpc Count(Service) returns (CountResponse);
 }

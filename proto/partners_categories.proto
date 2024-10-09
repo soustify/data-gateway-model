@@ -29,4 +29,5 @@ service PartnerCategoryService {
   rpc Create(PartnerCategory) returns (PartnerCategoryResponse);
   rpc Update(PartnerCategory) returns (PartnerCategoryResponse);
   rpc FindAll(PartnerCategoryListRequest) returns (PartnerCategoryListResponse);
+  rpc Count(PartnerCategory) returns (CountResponse);
 }

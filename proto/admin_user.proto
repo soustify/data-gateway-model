@@ -31,4 +31,5 @@ service AdminUserService {
   rpc Create(AdminUser) returns (AdminUserResponse);
   rpc Update(AdminUser) returns (AdminUserResponse);
   rpc FindAll(AdminUserListRequest) returns (AdminUserListResponse);
+  rpc Count(AdminUser) returns (CountResponse);
 }

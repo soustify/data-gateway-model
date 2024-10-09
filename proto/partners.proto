@@ -30,4 +30,5 @@ service PartnerService {
   rpc Create(Partner) returns (PartnerResponse);
   rpc Update(Partner) returns (PartnerResponse);
   rpc FindAll(PartnerListRequest) returns (PartnerListResponse);
+  rpc Count(Partner) returns (CountResponse);
 }

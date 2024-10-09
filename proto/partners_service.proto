@@ -29,4 +29,5 @@ service PartnersServicesService {
   rpc Create(PartnersServices) returns (PartnersServicesResponse);
   rpc Update(PartnersServices) returns (PartnersServicesResponse);
   rpc FindAll(PartnersServicesListRequest) returns (PartnersServicesListResponse);
+  rpc Count(PartnersServices) returns (CountResponse);
 }

@@ -29,4 +29,5 @@ service PartnerAddressService {
   rpc Create(PartnerAddress) returns (PartnerAddressResponse);
   rpc Update(PartnerAddress) returns (PartnerAddressResponse);
   rpc FindAll(PartnerAddressListRequest) returns (PartnerAddressListResponse);
+  rpc Count(PartnerAddress) returns (CountResponse);
 }
