@@ -34,12 +34,17 @@ type (
 
 func RegisterLambdaClient(clientName, preffixName string, class interface{}) {
 	implementation := GetDefinition(class)
-	implementation.ContentFile(clientName, preffixName)
+	implementation.CreateLambdaClient(clientName, preffixName, "client")
 }
 
-func (m *Implementation) ContentFile(clientName, preffixName string) {
+func RegisterServer(clientName string, class interface{}, packages []string) {
+	implementation := GetDefinition(class)
+	implementation.CreateServer(Name(clientName), "server", packages)
+}
+
+func (m *Implementation) CreateLambdaClient(clientName, preffixName, _package string) {
 	implName := fmt.Sprintf("lambda%s", clientName)
-	content := "package client\n\n"
+	content := fmt.Sprintf("package %s\n\n", _package)
 	content += "import (\n"
 	content += "	\"context\"\n"
 	content += "    \"github.com/soustify/data-gateway-model/pkg/pb\"\n"
@@ -51,15 +56,51 @@ func (m *Implementation) ContentFile(clientName, preffixName string) {
 	content += fmt.Sprintf("type %s struct{}\n", implName)
 
 	for _, method := range m.Methods {
-		content += method.GetSignature(implName, preffixName)
+		content += method.GetLambdaClient(implName, preffixName)
 	}
 
-	createFile(fmt.Sprintf("%s.go", m.Interface.Name.ToSnakeCase()), content)
+	createFile("pkg/client", fmt.Sprintf("%s.go", m.Interface.Name.ToSnakeCase()), content)
+}
+
+func (m *Implementation) CreateServer(clientName Name, _package string, packages []string) {
+	content := fmt.Sprintf("package %s\n\n", _package)
+	content += "import (\n"
+	content += "	\"context\"\n"
+	content += "	\"errors\"\n"
+	content += "    \"github.com/soustify/data-gateway-model/pkg/pb\"\n"
+	if packages != nil {
+		for _, s := range packages {
+			content += fmt.Sprintf("	\"%s\"\n", s)
+		}
+	}
+	content += ")\n\n"
+	content += fmt.Sprintf("var %s pb.%s\n\n", clientName, m.Interface.Name)
+
+	content += "type (\n"
+	content += fmt.Sprintf("	%s struct {\n", clientName.ToLowerFirst())
+	content += fmt.Sprintf("		pb.Unimplemented%s\n", m.Interface.Name)
+	content += fmt.Sprintf("		//dao repository.%sRepository\n", clientName)
+	content += "		db  func() *gorm.DB\n"
+	content += "	}\n"
+	content += ")\n\n"
+
+	content += "func init() {\n"
+	content += fmt.Sprintf("	%s = &%s{\n", clientName, clientName.ToLowerFirst())
+	content += fmt.Sprintf("		//dao: repository.%sDao,\n", clientName)
+	content += "		db: func() *gorm.DB {\n"
+	content += "			return gorm_dao.GetInstance(\"default\")\n"
+	content += "		},\n"
+	content += "	}\n"
+	content += "}\n\n"
+
+	for _, method := range m.Methods {
+		content += method.GetEmptyServer(clientName.ToLowerFirst())
+	}
+	createFile("pkg/server", fmt.Sprintf("%s.go", m.Interface.Name.ToSnakeCase()), content)
 }
 
 // createFile cria ou sobrescreve um arquivo na pasta "pkg/client"
-func createFile(fileName string, content string) error {
-	dir := "pkg/client"
+func createFile(dir, fileName string, content string) error {
 	filePath := filepath.Join(dir, fileName)
 	if _, err := os.Stat(dir); os.IsNotExist(err) {
 		err = os.MkdirAll(dir, 0755)
@@ -75,16 +116,28 @@ func createFile(fileName string, content string) error {
 	return nil
 }
 
-func (m *Method) GetSignature(structName, lambdaVarName string) string {
+func (m *Method) GetLambdaClient(structName, lambdaVarName string) string {
 	content := "\n"
 	if m != nil {
-		fmt.Sprintf("func (c *%s) %s(ctx %s, in %s, opts ... %s){",
-			"%s", m.Name, m.Arguments[0], m.Arguments[1], m.Arguments[2])
 		content += fmt.Sprintf("func (c *%s) %s(ctx %s, in %s, opts ... %s) (%s, %s){\n",
 			structName, m.Name, m.Arguments[0], m.Arguments[1], strings.Replace(m.Arguments[2], "[]", "", 1), m.Returns[0], m.Returns[1])
 		content += fmt.Sprintf("\tvar result %s\n", m.Returns[0])
 		content += fmt.Sprintf("\terr := invokeAndUnmarshal(ctx, \"%s_%s\", in, &result)\n", lambdaVarName, m.Name.ToSnakeCase())
 		content += "\treturn result, err\n"
+		content += "}\n"
+	}
+	return content
+}
+
+func (m *Method) GetEmptyServer(structName string) string {
+	content := "\n"
+	if m != nil {
+		if len(m.Arguments) == 0 {
+			return ""
+		}
+		content += fmt.Sprintf("func (c *%s) %s(ctx %s, in %s) (%s, %s){\n",
+			structName, m.Name, m.Arguments[0], m.Arguments[1], m.Returns[0], m.Returns[1])
+		content += "\treturn nil, errors.New(\"Not Implemented Server\")\n"
 		content += "}\n"
 	}
 	return content
@@ -133,4 +186,11 @@ func (s Name) ToSnakeCase() string {
 	re := regexp.MustCompile("([a-z0-9])([A-Z])")
 	snake := re.ReplaceAllString(string(s), "${1}_${2}")
 	return strings.ToLower(snake)
+}
+
+func (s Name) ToLowerFirst() string {
+	if len(s) == 0 {
+		return string(s)
+	}
+	return strings.ToLower(string(s[0])) + string(s[1:])
 }

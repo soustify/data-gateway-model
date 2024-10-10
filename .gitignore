@@ -1,3 +1,5 @@
 .idea
 
 generated/lambda/*
+
+pkg/server
