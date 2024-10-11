@@ -3,3 +3,4 @@
 generated/lambda/*
 
 pkg/server
+pkg/adapter

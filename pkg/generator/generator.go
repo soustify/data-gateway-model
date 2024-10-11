@@ -42,6 +42,11 @@ func RegisterServer(clientName string, class interface{}, packages []string) {
 	implementation.CreateServer(Name(clientName), "server", packages)
 }
 
+func RegisterAdapter(clientName string, class interface{}, packages []string) {
+	implementation := GetDefinition(class)
+	implementation.CreateAdapter(Name(clientName), "adapter", packages)
+}
+
 func (m *Implementation) CreateLambdaClient(clientName, preffixName, _package string) {
 	implName := fmt.Sprintf("lambda%s", clientName)
 	content := fmt.Sprintf("package %s\n\n", _package)
@@ -99,6 +104,39 @@ func (m *Implementation) CreateServer(clientName Name, _package string, packages
 	createFile("pkg/server", fmt.Sprintf("%s.go", m.Interface.Name.ToSnakeCase()), content)
 }
 
+func (m *Implementation) CreateAdapter(clientName Name, _package string, packages []string) {
+	content := fmt.Sprintf("package %s\n\n", _package)
+	content += "import (\n"
+	content += "	\"context\"\n"
+	content += "    \"github.com/soustify/data-gateway-model/pkg/pb\"\n"
+	content += "    \"github.com/soustify/data-gateway-model/pkg/types\"\n"
+	content += "    \"github.com/soustify/data-gateway/pkg/server\"\n"
+
+	if packages != nil {
+		for _, s := range packages {
+			content += fmt.Sprintf("	\"%s\"\n", s)
+		}
+	}
+	content += ")\n\n"
+	content += fmt.Sprintf("var %s %sAdapter = &%s{}\n\n", clientName, clientName, clientName.ToLowerFirst())
+
+	content += "type (\n"
+
+	content += fmt.Sprintf("\t%sAdapter interface {", clientName)
+	for _, method := range m.Methods {
+		content += method.GetAdapter(clientName.ToLowerFirst(), clientName, true)
+	}
+	content += "\n}\n"
+	content += fmt.Sprintf("	%s struct {\n", clientName.ToLowerFirst())
+	content += "	}\n"
+	content += ")\n\n"
+
+	for _, method := range m.Methods {
+		content += method.GetAdapter(clientName.ToLowerFirst(), clientName, false)
+	}
+	createFile("pkg/adapter", fmt.Sprintf("%s.go", m.Interface.Name.ToSnakeCase()), content)
+}
+
 // createFile cria ou sobrescreve um arquivo na pasta "pkg/client"
 func createFile(dir, fileName string, content string) error {
 	filePath := filepath.Join(dir, fileName)
@@ -139,6 +177,23 @@ func (m *Method) GetEmptyServer(structName string) string {
 			structName, m.Name, m.Arguments[0], m.Arguments[1], m.Returns[0], m.Returns[1])
 		content += "\treturn nil, errors.New(\"Not Implemented Server\")\n"
 		content += "}\n"
+	}
+	return content
+}
+
+func (m *Method) GetAdapter(structName string, clientName Name, signature bool) string {
+	content := "\n"
+	if m != nil {
+		if len(m.Arguments) == 0 {
+			return ""
+		}
+		if signature {
+			content += fmt.Sprintf("\t\t%s(ctx context.Context, parameter *types.LambdaParameter[%s]) (%s, %s)", m.Name, m.Arguments[1], m.Returns[0], m.Returns[1])
+		} else {
+			content += fmt.Sprintf("func (c *%s) %s(ctx context.Context, parameter *types.LambdaParameter[%s]) (%s, %s){\n", structName, m.Name, m.Arguments[1], m.Returns[0], m.Returns[1])
+			content += fmt.Sprintf("\treturn server.%s.%s(parameter.GenerateContext(), *parameter.Content)\n", clientName, m.Name)
+			content += "}\n"
+		}
 	}
 	return content
 }
