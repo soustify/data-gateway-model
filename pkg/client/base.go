@@ -3,11 +3,13 @@ package client
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/service/lambda"
+	"github.com/soustify/data-gateway-model/pkg/types"
 	"log"
 	"os"
 )
@@ -61,11 +63,22 @@ func init() {
 }
 
 func invoke(ctx context.Context, functionName string, payload interface{}) (*lambda.InvokeOutput, error) {
-	jsonData, err := json.Marshal(payload)
+	if ctx.Value(types.ContextId) == nil || ctx.Value(types.CognitoPoolId) == nil || ctx.Value(types.CognitoUserId) == nil {
+		return nil, errors.New("ContextId, CognitoPollId and CognitoUserId is mandatory on context")
+	}
+	content := &types.LambdaParameter[any]{
+		Content: &payload,
+		Metadata: &types.MetadataContext{
+			ContextId:     ctx.Value(types.ContextId).(string),
+			CognitoPoolId: ctx.Value(types.CognitoPoolId).(string),
+			CognitoUserId: ctx.Value(types.CognitoUserId).(string),
+		},
+	}
+	jsonData, err := json.Marshal(content)
 	if err != nil {
 		return nil, err
 	}
-
+	// Invocando a Lambda
 	output, err := client.Invoke(ctx, &lambda.InvokeInput{
 		FunctionName: aws.String(functionName),
 		Payload:      jsonData,
@@ -76,7 +89,6 @@ func invoke(ctx context.Context, functionName string, payload interface{}) (*lam
 	}
 
 	return output, err
-
 }
 
 // Função genérica para invocar a Lambda e desserializar a resposta
