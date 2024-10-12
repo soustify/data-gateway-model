@@ -14,9 +14,9 @@ const (
 
 type (
 	LambdaParameter[T any] struct {
-		Content  *T
-		Metadata *MetadataContext
-		fields   []string
+		Content    *T
+		Metadata   *MetadataContext
+		ClientType string
 	}
 
 	MetadataContext struct {
@@ -76,14 +76,8 @@ func UserIdAndPoolIdValidation(meta *MetadataContext) error {
 	return nil
 }
 
+// Deprecated
 func (c *LambdaParameter[any]) GenerateContext(ctx context.Context, validations ...func(metadataContext *MetadataContext) error) (context.Context, error) {
-	if validations != nil {
-		for _, validation := range validations {
-			if err := validation(c.Metadata); err != nil {
-				return nil, err
-			}
-		}
-	}
 	ctx = context.WithValue(ctx, ContextId, c.Metadata.ContextId)
 	ctx = context.WithValue(ctx, CognitoPoolId, c.Metadata.CognitoPoolId)
 	ctx = context.WithValue(ctx, CognitoUserId, c.Metadata.CognitoUserId)

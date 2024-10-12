@@ -8,9 +8,6 @@ import (
 	"time"
 )
 
-// Define um tipo customizado para a chave no contexto
-type ContextKey string
-
 type (
 	Context struct {
 		typeContext string
@@ -63,7 +60,7 @@ func (g *Context) grpcContext(timeout time.Duration) (context.Context, context.C
 func (g *Context) lambdaContext(timeout time.Duration) (context.Context, context.CancelFunc) {
 	ctx := context.Background()
 	for _, val := range g.fields {
-		ctx = context.WithValue(ctx, ContextKey(val.Key), val.Value) // Usando ContextKey como chave
+		ctx = context.WithValue(ctx, val.Key, val.Value) // Usando ContextKey como chave
 	}
-	return context.WithTimeout(ctx, timeout)
+	return ctx, nil
 }

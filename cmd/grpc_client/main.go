@@ -5,11 +5,6 @@ import (
 	"fmt"
 	"github.com/soustify/data-gateway-model/pkg/client"
 	"github.com/soustify/data-gateway-model/pkg/pb"
-	"github.com/soustify/data-gateway-model/pkg/types"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/metadata"
-	"log"
-	"time"
 )
 
 func main() {
@@ -19,14 +14,6 @@ func main() {
 
 func lambda() {
 	call := client.DocumentType
-	lambdaClient := &types.LambdaParameter[any]{
-		Metadata: &types.MetadataContext{
-			ContextId:     "9c7328bd-5fd9-4574-9be7-1fc7e2647255",
-			CognitoPoolId: "624a35bf-681f-4ac4-9145-000693fa5a8a",
-			CognitoUserId: "0fcf0b61-85c7-4056-97c6-412ff953f535",
-		},
-	}
-
 	data, err := call.FindAll(lambdaClient.GenerateContext(context.Background()), &pb.DocumentTypeListRequest{
 		Payload: &pb.DocumentType{
 			Entity: &pb.Entity{
@@ -44,35 +31,35 @@ func lambda() {
 }
 
 func grpcClient() {
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())
-	//conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("Não foi possível conectar: %v", err)
-	}
-	defer conn.Close()
-
-	client := pb.NewDocumentTypeServiceClient(conn)
-
-	md := metadata.Pairs(
-		"context-id", "1e5a7459-91c6-4c8a-bc30-6dfa597e1c1a",
-		"cognito-pool-id", "1e5a7459-91c6-4c8a-bc30-6dfa597e1c1a",
-		"cognito-user-id", "1e5a7459-91c6-4c8a-bc30-6dfa597e1c1a")
-
-	ctx, cancel := context.WithTimeout(metadata.NewOutgoingContext(context.Background(), md), 30*time.Minute)
-	defer cancel()
-
-	result, err := client.FindAll(ctx, &pb.DocumentTypeListRequest{
-		Payload: &pb.DocumentType{
-			Entity: &pb.Entity{Active: false},
-		},
-		Metadata: &pb.Metadata{
-			Page: 1,
-			Size: 15,
-		},
-	})
-
-	if err != nil {
-		log.Fatalf("Erro ao chamar Save: %v", err)
-	}
-	log.Printf("Resposta de Save: %v", result)
+	//conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())
+	////conn, err := grpc.NewClient("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	//if err != nil {
+	//	log.Fatalf("Não foi possível conectar: %v", err)
+	//}
+	//defer conn.Close()
+	//
+	//client := pb.NewDocumentTypeServiceClient(conn)
+	//
+	//md := metadata.Pairs(
+	//	"context-id", "1e5a7459-91c6-4c8a-bc30-6dfa597e1c1a",
+	//	"cognito-pool-id", "1e5a7459-91c6-4c8a-bc30-6dfa597e1c1a",
+	//	"cognito-user-id", "1e5a7459-91c6-4c8a-bc30-6dfa597e1c1a")
+	//
+	//ctx, cancel := context.WithTimeout(metadata.NewOutgoingContext(context.Background(), md), 30*time.Minute)
+	//defer cancel()
+	//
+	//result, err := client.FindAll(ctx, &pb.DocumentTypeListRequest{
+	//	Payload: &pb.DocumentType{
+	//		Entity: &pb.Entity{Active: false},
+	//	},
+	//	Metadata: &pb.Metadata{
+	//		Page: 1,
+	//		Size: 15,
+	//	},
+	//})
+	//
+	//if err != nil {
+	//	log.Fatalf("Erro ao chamar Save: %v", err)
+	//}
+	//log.Printf("Resposta de Save: %v", result)
 }
