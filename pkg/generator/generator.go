@@ -191,7 +191,11 @@ func (m *Method) GetAdapter(structName string, clientName Name, signature bool) 
 			content += fmt.Sprintf("\t\t%s(ctx context.Context, parameter *types.LambdaParameter[%s]) (%s, %s)", m.Name, m.Arguments[1], m.Returns[0], m.Returns[1])
 		} else {
 			content += fmt.Sprintf("func (c *%s) %s(ctx context.Context, parameter *types.LambdaParameter[%s]) (%s, %s){\n", structName, m.Name, m.Arguments[1], m.Returns[0], m.Returns[1])
-			content += fmt.Sprintf("\treturn server.%s.%s(parameter.GenerateContext(ctx), *parameter.Content)\n", clientName, m.Name)
+			content += "\tcontext, err := parameter.GenerateContext(ctx)\n"
+			content += "\tif err != nil {\n"
+			content += "\t\treturn nil, err\n"
+			content += "\t}\n"
+			content += fmt.Sprintf("\treturn server.%s.%s(context, *parameter.Content)\n", clientName, m.Name)
 			content += "}\n"
 		}
 	}
