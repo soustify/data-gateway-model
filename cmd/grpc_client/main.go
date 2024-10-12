@@ -13,22 +13,22 @@ func main() {
 }
 
 func lambda() {
-	call := client.DocumentType
-	data, err := call.FindAll(lambdaClient.GenerateContext(context.Background()), &pb.DocumentTypeListRequest{
-		Payload: &pb.DocumentType{
-			Entity: &pb.Entity{
-				Id:     "123123123",
-				Active: false,
-			},
-			Name: "TESTE_!!ASDS",
-		},
-	}, nil)
-
-	if err != nil {
-		panic(err)
-	}
-	fmt.Printf("%v", data.Response)
-}
+//	call := client.DocumentType
+//	data, err := call.FindAll(lambdaClient.GenerateContext(context.Background()), &pb.DocumentTypeListRequest{
+//		Payload: &pb.DocumentType{
+//			Entity: &pb.Entity{
+//				Id:     "123123123",
+//				Active: false,
+//			},
+//			Name: "TESTE_!!ASDS",
+//		},
+//	}, nil)
+//
+//	if err != nil {
+//		panic(err)
+//	}
+//	fmt.Printf("%v", data.Response)
+//}
 
 func grpcClient() {
 	//conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())

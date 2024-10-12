@@ -62,5 +62,5 @@ func (g *Context) lambdaContext(timeout time.Duration) (context.Context, context
 	for _, val := range g.fields {
 		ctx = context.WithValue(ctx, val.Key, val.Value) // Usando ContextKey como chave
 	}
-	return ctx, nil
+	return context.WithTimeout(ctx, timeout)
 }
