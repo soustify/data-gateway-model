@@ -21,18 +21,9 @@ type (
 	}
 )
 
-func (c *LambdaParameter[any]) GenerateContext() context.Context {
-	ctx := context.Background()
+func (c *LambdaParameter[any]) GenerateContext(ctx context.Context) context.Context {
 	ctx = context.WithValue(ctx, ContextId, c.Metadata.ContextId)
 	ctx = context.WithValue(ctx, CognitoPoolId, c.Metadata.CognitoPoolId)
 	ctx = context.WithValue(ctx, CognitoUserId, c.Metadata.CognitoUserId)
-	return ctx
-}
-
-func CreateContext(value MetadataContext) context.Context {
-	ctx := context.Background()
-	ctx = context.WithValue(ctx, ContextId, value.ContextId)
-	ctx = context.WithValue(ctx, CognitoPoolId, value.CognitoPoolId)
-	ctx = context.WithValue(ctx, CognitoUserId, value.CognitoUserId)
 	return ctx
 }

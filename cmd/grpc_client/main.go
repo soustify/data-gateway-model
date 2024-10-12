@@ -19,13 +19,15 @@ func main() {
 
 func lambda() {
 	call := client.DocumentType
-	ctx := types.CreateContext(types.MetadataContext{
-		ContextId:     "9c7328bd-5fd9-4574-9be7-1fc7e2647255",
-		CognitoPoolId: "624a35bf-681f-4ac4-9145-000693fa5a8a",
-		CognitoUserId: "0fcf0b61-85c7-4056-97c6-412ff953f535",
-	})
+	lambdaClient := &types.LambdaParameter[any]{
+		Metadata: &types.MetadataContext{
+			ContextId:     "9c7328bd-5fd9-4574-9be7-1fc7e2647255",
+			CognitoPoolId: "624a35bf-681f-4ac4-9145-000693fa5a8a",
+			CognitoUserId: "0fcf0b61-85c7-4056-97c6-412ff953f535",
+		},
+	}
 
-	data, err := call.FindAll(ctx, &pb.DocumentTypeListRequest{
+	data, err := call.FindAll(lambdaClient.GenerateContext(context.Background()), &pb.DocumentTypeListRequest{
 		Payload: &pb.DocumentType{
 			Entity: &pb.Entity{
 				Id:     "123123123",
