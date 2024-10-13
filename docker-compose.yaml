@@ -20,3 +20,23 @@ services:
 #      - "50051:50051"
 #    environment:
 #      PORT: 50051
+
+
+version: '3.8'
+services:
+  # protoc-go:
+  #   image: namely/protoc-all:latest
+  #   volumes:
+  #     - ./:/defs
+  #   working_dir: /defs
+  #   command: >
+  #     -f proto/*.proto -l go -o pkg/pb --go-source-relative
+
+  protoc-js:
+    image: namely/protoc-all:latest
+    volumes:
+      - ./:/defs
+    working_dir: /defs
+    command: >
+      -f proto/*.proto -l web -o generated/js
+
