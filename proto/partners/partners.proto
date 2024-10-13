@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package partners;
+
+option go_package = "pkg/proto/partners;partners";
+
+import "proto/shared_kernel/base.proto";
+import "proto/shared_kernel/document.proto";
+
+message Partner {
+  base.Entity entity = 1;
+  string name = 2;
+  string document = 4;
+  repeated documents.Document documents = 5;
+}
+
+service PartnerService {
+  rpc Create(Partner) returns (Partner);
+}

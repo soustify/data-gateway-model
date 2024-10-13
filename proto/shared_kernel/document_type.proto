@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package documents;
+
+option go_package = "pkg/proto/shared_kernel;shared_kernel";
+
+enum DocumentType {
+  UNKOWN = 0;
+  CNPJ = 1;
+}

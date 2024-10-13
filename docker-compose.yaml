@@ -1,42 +1,25 @@
 version: '3.8'
 services:
-  app:
-    image: protobuf:latest
-    volumes:
-      - ./:/app
-    working_dir: /app
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        protoc -I=proto --go_out=pkg/pb --go_opt=paths=source_relative \
-               --go-grpc_out=pkg/pb --go-grpc_opt=paths=source_relative \
-               proto/*.proto
-        chmod 777 -R pkg/pb
-
-#  grpc_server:
-#    image: grpc_server:latest
-#    ports:
-#      - "50051:50051"
-#    environment:
-#      PORT: 50051
-
-
-version: '3.8'
-services:
-  # protoc-go:
-  #   image: namely/protoc-all:latest
-  #   volumes:
-  #     - ./:/defs
-  #   working_dir: /defs
-  #   command: >
-  #     -f proto/*.proto -l go -o pkg/pb --go-source-relative
-
-  protoc-js:
+  protoc-go:
     image: namely/protoc-all:latest
     volumes:
       - ./:/defs
     working_dir: /defs
     command: >
-      -f proto/*.proto -l web -o generated/js
+      -f proto/**/*.proto -l go -o pkg --go-source-relative
+#    entrypoint:
+#      - /bin/sh
+#      - -c
+#      - |
+#        rm -rf pkg/*
+#        protoc -I proto/ proto/**/.proto --go_out=pkg --go_opt=paths=source_relative
+#  protoc-js:
+#    image: namely/protoc-all:latest
+#    volumes:
+#      - ./:/defs
+#    working_dir: /defs
+#    command: >
+#      -f proto/*.proto -l web -o generated/js
+#
+
 

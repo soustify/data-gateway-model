@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package documents;
+
+option go_package = "pkg/proto/shared_kernel;shared_kernel";
+
+import "proto/shared_kernel/base.proto";
+
+import "proto/shared_kernel/document_type.proto";
+
+message Document {
+  base.Entity entity = 1;
+  string Content = 2;
+  DocumentType type = 3;
+}
