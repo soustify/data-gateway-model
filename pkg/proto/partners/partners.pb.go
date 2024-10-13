@@ -7,10 +7,9 @@
 package partners
 
 import (
+	shared_kernel "github.com/soustify/data-gateway-model/pkg/proto/shared_kernel"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	shared_kernel1 "pkg/proto/shared_kernel"
-	shared_kernel "pkg/shared_kernel"
 	reflect "reflect"
 	sync "sync"
 )
@@ -27,10 +26,10 @@ type Partner struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Entity    *shared_kernel.Entity      `protobuf:"bytes,1,opt,name=entity,proto3" json:"entity,omitempty"`
-	Name      string                     `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Document  string                     `protobuf:"bytes,4,opt,name=document,proto3" json:"document,omitempty"`
-	Documents []*shared_kernel1.Document `protobuf:"bytes,5,rep,name=documents,proto3" json:"documents,omitempty"`
+	Entity    *shared_kernel.Entity     `protobuf:"bytes,1,opt,name=entity,proto3" json:"entity,omitempty"`
+	Name      string                    `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Document  string                    `protobuf:"bytes,4,opt,name=document,proto3" json:"document,omitempty"`
+	Documents []*shared_kernel.Document `protobuf:"bytes,5,rep,name=documents,proto3" json:"documents,omitempty"`
 }
 
 func (x *Partner) Reset() {
@@ -86,7 +85,7 @@ func (x *Partner) GetDocument() string {
 	return ""
 }
 
-func (x *Partner) GetDocuments() []*shared_kernel1.Document {
+func (x *Partner) GetDocuments() []*shared_kernel.Document {
 	if x != nil {
 		return x.Documents
 	}
@@ -116,9 +115,12 @@ var file_proto_partners_partners_proto_rawDesc = []byte{
 	0x76, 0x69, 0x63, 0x65, 0x12, 0x2e, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12, 0x11,
 	0x2e, 0x70, 0x61, 0x72, 0x74, 0x6e, 0x65, 0x72, 0x73, 0x2e, 0x50, 0x61, 0x72, 0x74, 0x6e, 0x65,
 	0x72, 0x1a, 0x11, 0x2e, 0x70, 0x61, 0x72, 0x74, 0x6e, 0x65, 0x72, 0x73, 0x2e, 0x50, 0x61, 0x72,
-	0x74, 0x6e, 0x65, 0x72, 0x42, 0x1d, 0x5a, 0x1b, 0x70, 0x6b, 0x67, 0x2f, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x2f, 0x70, 0x61, 0x72, 0x74, 0x6e, 0x65, 0x72, 0x73, 0x3b, 0x70, 0x61, 0x72, 0x74, 0x6e,
-	0x65, 0x72, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x6e, 0x65, 0x72, 0x42, 0x44, 0x5a, 0x42, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
+	0x6f, 0x6d, 0x2f, 0x73, 0x6f, 0x75, 0x73, 0x74, 0x69, 0x66, 0x79, 0x2f, 0x64, 0x61, 0x74, 0x61,
+	0x2d, 0x67, 0x61, 0x74, 0x65, 0x77, 0x61, 0x79, 0x2d, 0x6d, 0x6f, 0x64, 0x65, 0x6c, 0x2f, 0x70,
+	0x6b, 0x67, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x70, 0x61, 0x72, 0x74, 0x6e, 0x65, 0x72,
+	0x73, 0x3b, 0x70, 0x61, 0x72, 0x74, 0x6e, 0x65, 0x72, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x33,
 }
 
 var (
@@ -135,9 +137,9 @@ func file_proto_partners_partners_proto_rawDescGZIP() []byte {
 
 var file_proto_partners_partners_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_proto_partners_partners_proto_goTypes = []interface{}{
-	(*Partner)(nil),                 // 0: partners.Partner
-	(*shared_kernel.Entity)(nil),    // 1: base.Entity
-	(*shared_kernel1.Document)(nil), // 2: documents.Document
+	(*Partner)(nil),                // 0: partners.Partner
+	(*shared_kernel.Entity)(nil),   // 1: base.Entity
+	(*shared_kernel.Document)(nil), // 2: documents.Document
 }
 var file_proto_partners_partners_proto_depIdxs = []int32{
 	1, // 0: partners.Partner.entity:type_name -> base.Entity

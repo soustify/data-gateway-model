@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package partners;
 
-option go_package = "pkg/proto/partners;partners";
+option go_package = "github.com/soustify/data-gateway-model/pkg/proto/partners;partners";
 
 import "proto/shared_kernel/base.proto";
 import "proto/shared_kernel/document.proto";
